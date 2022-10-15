@@ -1,32 +1,19 @@
-#include <GLFW/glfw3.h>
-
-#define WINDOW_WIDTH 1280
-#define WINDOW_HEIGHT 720
+#include "Core/Window.h"
 
 int main()
 {
-    GLFWwindow* window;
+	Window win("Division Engine", 1280, 720);
 
-    if (!glfwInit())
-        return -1;
+	while (win.IsOpen())
+	{
+		win.Clear();
 
-    window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Division", NULL, NULL);
-    if (!window)
-    {
-        glfwTerminate();
-        return -1;
-    }
+		glBegin(GL_TRIANGLES);
+		glVertex2f(-0.5f, -0.5f);
+		glVertex2f(0.0f, 0.5f);
+		glVertex2f(0.5f, -0.5f);
+		glEnd();
 
-    glfwMakeContextCurrent(window);
-
-    while (!glfwWindowShouldClose(window))
-    {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
-
-    glfwTerminate();
-    return 0;
+		win.Update();
+	}
 }
