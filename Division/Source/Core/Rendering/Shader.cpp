@@ -38,6 +38,18 @@ void Shader::Unbind() const
 	glUseProgram(0);
 }
 
+void Shader::SetFloat(const std::string& name, float value)
+{
+	unsigned int loc = glGetUniformLocation(m_RendererID, name.c_str());
+	glUniform1f(loc, value);
+}
+
+void Shader::SetFloat3(const std::string& name, float v0, float v1, float v2)
+{
+	unsigned int loc = glGetUniformLocation(m_RendererID, name.c_str());
+	glUniform3f(loc, v0, v1, v2);
+}
+
 unsigned int Shader::CompileShader(unsigned int type, const std::string& source)
 {
 	unsigned int id = glCreateShader(type);
