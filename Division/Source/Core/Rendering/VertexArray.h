@@ -3,8 +3,6 @@
 #include "Buffer.h"
 #include "BufferLayout.h"
 
-#include <glad/glad.h>
-
 class VertexArray
 {
 public:

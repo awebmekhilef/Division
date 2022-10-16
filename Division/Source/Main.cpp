@@ -2,8 +2,33 @@
 #include "Core/Rendering/Buffer.h"
 #include "Core/Rendering/VertexArray.h"
 #include "Core/Rendering/BufferLayout.h"
+#include "Core/Rendering/Shader.h"
 
 #include <glad/glad.h>
+
+std::string vSrc =
+R"(
+#version 430 core
+
+layout(location=0) in vec2 aPosition;
+
+void main()
+{
+	gl_Position = vec4(aPosition, 0.0, 1.0);
+}
+)";
+
+std::string fSrc =
+R"(
+#version 430 core
+
+out vec4 Color;
+
+void main() 
+{
+	Color = vec4(1.0, 0.0, 1.0, 1.0);
+}
+)";
 
 int main()
 {
@@ -30,6 +55,8 @@ int main()
 	IndexBuffer ib(indices, sizeof(indices) / sizeof(unsigned int));
 
 	va.AddBuffer(vb, layout);
+
+	Shader shader(vSrc, fSrc);
 
 	while (win.IsOpen())
 	{

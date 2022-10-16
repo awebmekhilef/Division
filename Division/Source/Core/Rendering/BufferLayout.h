@@ -4,6 +4,8 @@
 
 #include <glad/glad.h>
 
+// This should be encapsulated in an enum shader data type
+// so we can easily use other APIs
 static unsigned int OpenGLShaderDataTypeSize(unsigned int type)
 {
 	switch (type)
