@@ -27,7 +27,7 @@ void VertexArray::AddBuffer(VertexBuffer& buffer, BufferLayout& layout)
 		glVertexAttribPointer(i, element.Dimensions, element.Type,
 			element.Normalize ? GL_TRUE : GL_FALSE, layout.GetStride(), (const void*)offset);
 
-		offset += element.Dimensions;
+		offset += element.Dimensions * OpenGLShaderDataTypeSize(element.Type);
 	}
 }
 
