@@ -1,5 +1,7 @@
 #include "Core/Window.h"
 #include "Core/Rendering/Buffer.h"
+#include "Core/Rendering/VertexArray.h"
+#include "Core/Rendering/BufferLayout.h"
 
 #include <glad/glad.h>
 
@@ -19,20 +21,21 @@ int main()
 		2, 3, 0,
 	};
 
-	unsigned int vao;
-	glGenVertexArrays(1, &vao);
-	glBindVertexArray(vao);
+	BufferLayout layout;
+	layout.Push(2, GL_FLOAT, false);
+
+	VertexArray va;
 
 	VertexBuffer vb(vertices, sizeof(vertices));
 	IndexBuffer ib(indices, sizeof(indices) / sizeof(unsigned int));
 
-	glEnableVertexAttribArray(0);
-	glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), 0);
+	va.AddBuffer(vb, layout);
 
 	while (win.IsOpen())
 	{
 		win.Clear();
 
+		// TODO: Move to renderer once create shader
 		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
 
 		win.Update();
