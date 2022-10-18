@@ -3,6 +3,7 @@
 #include "Core/Rendering/VertexArray.h"
 #include "Core/Rendering/BufferLayout.h"
 #include "Core/Rendering/Shader.h"
+#include "Core/Rendering/Texture.h"
 
 #include <glad/glad.h>
 
@@ -12,13 +13,17 @@ R"(
 
 layout(location=0) in vec2 aPosition;
 layout(location=1) in vec3 aColor;
+layout(location=2) in vec2 aTexCoords;
 
 out vec3 vColor;
+out vec2 vTexCoords;
 
 void main()
 {
 	gl_Position = vec4(aPosition, 0.0, 1.0);
+
 	vColor = aColor;
+	vTexCoords = aTexCoords;
 }
 )";
 
@@ -27,12 +32,15 @@ R"(
 #version 430 core
 
 in vec3 vColor;
+in vec2 vTexCoords;
 
 out vec4 Color;
 
+uniform sampler2D uTexture;
+
 void main() 
 {
-	Color = vec4(vColor, 1.0);
+	Color = texture(uTexture, vTexCoords) * vec4(vColor, 1.0);
 }
 )";
 
@@ -41,10 +49,10 @@ int main()
 	Window win("Division Engine", 1280, 720);
 
 	float vertices[] = {
-		-0.5f, -0.5f, 1.0f, 0.0f, 0.0f,
-		-0.5f,  0.5f, 1.0f, 1.0f, 0.0f,
-		 0.5f,  0.5f, 1.0f, 0.0f, 1.0f,
-		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f,
+		-0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f,
+		-0.5f,  0.5f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f,
+		 0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f,
 	};
 
 	unsigned int indices[] = {
@@ -55,6 +63,7 @@ int main()
 	BufferLayout layout;
 	layout.Push(2, GL_FLOAT, false);
 	layout.Push(3, GL_FLOAT, false);
+	layout.Push(2, GL_FLOAT, false);
 
 	VertexArray va;
 
@@ -64,6 +73,9 @@ int main()
 	va.AddBuffer(vb, layout);
 
 	Shader shader(vSrc, fSrc);
+
+	Texture texture("Assets/Textures/Checkerboard.png");
+	texture.Bind();
 
 	while (win.IsOpen())
 	{
