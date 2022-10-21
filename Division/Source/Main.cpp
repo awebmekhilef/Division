@@ -4,8 +4,7 @@
 #include "Core/Rendering/BufferLayout.h"
 #include "Core/Rendering/Shader.h"
 #include "Core/Rendering/Texture.h"
-
-#include <glad/glad.h>
+#include "Core/Rendering/Renderer.h"
 
 std::string vSrc =
 R"(
@@ -81,8 +80,7 @@ int main()
 	{
 		win.Clear();
 
-		// TODO: Move to renderer once create shader
-		glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
+		Renderer::Draw(va, ib, shader);
 
 		win.Update();
 	}
