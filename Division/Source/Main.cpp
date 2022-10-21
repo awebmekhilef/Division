@@ -6,6 +6,9 @@
 #include "Core/Rendering/Texture.h"
 #include "Core/Rendering/Renderer.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 std::string vSrc =
 R"(
 #version 430 core
@@ -17,9 +20,11 @@ layout(location=2) in vec2 aTexCoords;
 out vec3 vColor;
 out vec2 vTexCoords;
 
+uniform mat4 uMVP;
+
 void main()
 {
-	gl_Position = vec4(aPosition, 0.0, 1.0);
+	gl_Position = uMVP * vec4(aPosition, 0.0, 1.0);
 
 	vColor = aColor;
 	vTexCoords = aTexCoords;
@@ -75,6 +80,21 @@ int main()
 
 	Texture texture("Assets/Textures/Checkerboard.png");
 	texture.Bind();
+
+	glm::mat4 model(1.0f);
+	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+	glm::mat4 view(1.0f);
+	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
+
+	glm::mat4 proj = glm::perspective(
+		glm::radians(45.0f), 
+		(float)win.GetWidth() / win.GetHeight(), 
+		0.1f, 1000.0f);
+
+	glm::mat4 mvp = proj * view * model;
+
+	shader.SetMat4("uMVP", mvp);
 
 	while (win.IsOpen())
 	{
