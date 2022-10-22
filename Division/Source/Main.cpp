@@ -106,6 +106,9 @@ int main()
 		else if (Input::IsKeyHeld(GLFW_KEY_S))
 			pos.y -= 5.0f * dt;
 
+		if (Input::IsKeyHeld(GLFW_KEY_ESCAPE))
+			win.Close();
+
 		rotation += 45.0f * dt;
 
 		glm::mat4 model(1.0f);
