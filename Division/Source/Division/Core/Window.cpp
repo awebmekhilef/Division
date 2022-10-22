@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "Input.h"
 
 #include <glad/glad.h>
 #include <iostream>
@@ -41,6 +42,8 @@ Window::Window(const std::string& title, unsigned int width, unsigned int height
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	glDebugMessageCallback(DebugMessageCallback, nullptr);
+
+	Input::Init(m_Window);
 }
 
 Window::~Window()

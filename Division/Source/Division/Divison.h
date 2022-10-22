@@ -4,6 +4,7 @@
 
 #include "Core/Window.h"
 #include "Core/Time.h"
+#include "Core/Input.h"
 
 #include "Rendering/Buffer.h"
 #include "Rendering/BufferLayout.h"

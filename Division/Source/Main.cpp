@@ -75,8 +75,6 @@ int main()
 	Texture texture("Assets/Textures/Checkerboard.png");
 	texture.Bind();
 
-	glm::mat4 model(1.0f);
-	model = glm::rotate(model, glm::radians(45.0f), glm::vec3(0.0f, 0.0f, 1.0f));
 
 	glm::mat4 view(1.0f);
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
@@ -86,11 +84,10 @@ int main()
 		(float)win.GetWidth() / win.GetHeight(),
 		0.1f, 1000.0f);
 
-	glm::mat4 mvp = proj * view * model;
-
-	shader.SetMat4("uMVP", mvp);
-
 	float lastFrameTime = 0.0f;
+
+	glm::vec3 pos(0.0f);
+	float rotation = 0.0f;
 
 	while (win.IsOpen())
 	{
@@ -100,7 +97,20 @@ int main()
 		float dt = time - lastFrameTime;
 		lastFrameTime = time;
 
-		model = glm::rotate(model, glm::radians(45.0f * dt), glm::vec3(0.0f, 0.0f, 1.0f));
+		if (Input::IsKeyHeld(GLFW_KEY_A))
+			pos.x -= 5.0f * dt;
+		else if (Input::IsKeyHeld(GLFW_KEY_D))
+			pos.x += 5.0f * dt;
+		if (Input::IsKeyHeld(GLFW_KEY_W))
+			pos.y += 5.0f * dt;
+		else if (Input::IsKeyHeld(GLFW_KEY_S))
+			pos.y -= 5.0f * dt;
+
+		rotation += 45.0f * dt;
+
+		glm::mat4 model(1.0f);
+		model = glm::translate(model, pos);
+		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
 
 		glm::mat4 mvp = proj * view * model;
 		shader.SetMat4("uMVP", mvp);

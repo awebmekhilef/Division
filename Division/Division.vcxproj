@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Division\Core\Input.cpp" />
     <ClCompile Include="Source\Division\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Division\Rendering\Shader.cpp" />
     <ClCompile Include="Source\Division\Rendering\BufferLayout.cpp" />
@@ -146,6 +147,7 @@
     <ClCompile Include="Source\Vendor\stb_image\stb_image.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Division\Core\Input.h" />
     <ClInclude Include="Source\Division\Rendering\Renderer.h" />
     <ClInclude Include="Source\Division\Rendering\Shader.h" />
     <ClInclude Include="Source\Division\Rendering\BufferLayout.h" />
