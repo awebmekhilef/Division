@@ -2,7 +2,7 @@
 
 /* To be used by client applications */
 
-#include "Core/Application.h"
+#include "Core/Window.h"
 #include "Core/Time.h"
 
 #include "Rendering/Buffer.h"

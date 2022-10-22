@@ -45,9 +45,6 @@
     <ClCompile Include="Source\Vendor\glm\detail\glm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\Division\Core\Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -924,9 +921,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Division\Core\Time.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\Division\Core\Application.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\Division\Divison.h">
