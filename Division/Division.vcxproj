@@ -150,6 +150,7 @@
     <ClInclude Include="Source\Core\Rendering\Shader.h" />
     <ClInclude Include="Source\Core\Rendering\BufferLayout.h" />
     <ClInclude Include="Source\Core\Rendering\Buffer.h" />
+    <ClInclude Include="Source\Core\Time.h" />
     <ClInclude Include="Source\Core\Window.h" />
     <ClInclude Include="Source\Core\Rendering\VertexArray.h" />
     <ClInclude Include="Source\Core\Rendering\Texture.h" />
