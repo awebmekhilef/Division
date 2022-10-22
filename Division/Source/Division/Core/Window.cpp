@@ -63,3 +63,8 @@ bool Window::IsOpen() const
 {
 	return !glfwWindowShouldClose(m_Window);
 }
+
+void Window::Close()
+{
+	glfwSetWindowShouldClose(m_Window, true);
+}

@@ -1,15 +1,20 @@
-#include "Core/Window.h"
-#include "Core/Rendering/Buffer.h"
-#include "Core/Rendering/VertexArray.h"
-#include "Core/Rendering/BufferLayout.h"
-#include "Core/Rendering/Shader.h"
-#include "Core/Rendering/Texture.h"
-#include "Core/Rendering/Renderer.h"
+#include "Divison.h"
 
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
-#include "Core/Time.h"
-#include <iostream>
+
+class Sandbox : public Application
+{
+public:
+	Sandbox()
+		: Application("Division Demo")
+	{
+	}
+
+	void OnUpdate(float dt) override
+	{
+	}
+};
 
 std::string vSrc =
 R"(
@@ -90,28 +95,17 @@ int main()
 	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
 
 	glm::mat4 proj = glm::perspective(
-		glm::radians(45.0f), 
-		(float)win.GetWidth() / win.GetHeight(), 
+		glm::radians(45.0f),
+		(float)win.GetWidth() / win.GetHeight(),
 		0.1f, 1000.0f);
 
 	glm::mat4 mvp = proj * view * model;
 
 	shader.SetMat4("uMVP", mvp);
 
-	float lastFrameTime = 0.0f;
-
 	while (win.IsOpen())
 	{
 		win.Clear();
-
-		float time = Time::GetTime();
-		float dt = time - lastFrameTime;
-		lastFrameTime = time;
-
-		model = glm::rotate(model, glm::radians(45.0f * dt), glm::vec3(0.0f, 0.0f, 1.0f));
-
-		glm::mat4 mvp = proj * view * model;
-		shader.SetMat4("uMVP", mvp);
 
 		Renderer::Draw(va, ib, shader);
 

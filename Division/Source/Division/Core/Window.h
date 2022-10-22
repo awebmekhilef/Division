@@ -15,6 +15,8 @@ public:
 	void Update() const;
 	bool IsOpen() const;
 
+	void Close();
+
 	inline unsigned int GetWidth() const { return m_Width; }
 	inline unsigned int GetHeight() const { return m_Height; }
 

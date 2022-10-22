@@ -1,7 +1,6 @@
 #pragma once
 
 #include <vector>
-
 #include <glad/glad.h>
 
 // This should be encapsulated in an enum shader data type
