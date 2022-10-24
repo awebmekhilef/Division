@@ -3,8 +3,9 @@
 
 #include <glad/glad.h>
 #include <iostream>
+#include <Rendering/Renderer.h>
 
-// TODO: This should be moved to context class
+// TODO: Move to context class
 void DebugMessageCallback(GLenum source,
 	GLenum type,
 	GLuint id,
@@ -43,7 +44,9 @@ Window::Window(const std::string& title, unsigned int width, unsigned int height
 
 	glDebugMessageCallback(DebugMessageCallback, nullptr);
 
+	// TODO: These should be initialized in application class
 	Input::Init(m_Window);
+	Renderer::Init();
 }
 
 Window::~Window()
@@ -53,7 +56,7 @@ Window::~Window()
 
 void Window::Clear() const
 {
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
 void Window::Update() const

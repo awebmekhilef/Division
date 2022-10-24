@@ -13,7 +13,7 @@ public:
 private:
 	unsigned int m_RendererID;
 
-	// Can be used to hot releod in future using glTexSubImage2D 
+	// Can be used to hot reload in the future using glTexSubImage2D 
 	// https://github.com/ThomasMonkman/filewatch
 	std::string m_Filepath;
 };

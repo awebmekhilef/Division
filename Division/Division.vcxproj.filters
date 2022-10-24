@@ -1342,5 +1342,6 @@
     <None Include="Source\Vendor\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="Assets\Shaders\Sprite.glsl" />
   </ItemGroup>
 </Project>

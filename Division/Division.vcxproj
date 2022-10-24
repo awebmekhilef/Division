@@ -442,6 +442,7 @@
     <ClInclude Include="Source\Vendor\stb_image\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Shaders\Sprite.glsl" />
     <None Include="Source\Vendor\glm\detail\func_common.inl" />
     <None Include="Source\Vendor\glm\detail\func_common_simd.inl" />
     <None Include="Source\Vendor\glm\detail\func_exponential.inl" />

@@ -8,5 +8,6 @@
 class Renderer
 {
 public:
+	static void Init();
 	static void Draw(VertexArray& va, IndexBuffer& ib, Shader& shader);
 };
