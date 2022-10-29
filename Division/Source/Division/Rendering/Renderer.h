@@ -1,13 +1,10 @@
 #pragma once
 
-#include "VertexArray.h"
-#include "Shader.h"
-
-#include <glad/glad.h>
+class Mesh;
+class Shader;
 
 class Renderer
 {
 public:
-	static void Init();
-	static void Draw(VertexArray& va, IndexBuffer& ib, Shader& shader);
+	static void Render(Mesh* mesh, Shader* shader);
 };

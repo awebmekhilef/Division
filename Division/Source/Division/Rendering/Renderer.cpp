@@ -1,14 +1,17 @@
 #include "Renderer.h"
 
-void Renderer::Init()
-{
-	glEnable(GL_DEPTH_TEST);
-}
+#include <glad/glad.h>
 
-void Renderer::Draw(VertexArray& va, IndexBuffer& ib, Shader& shader)
-{
-	va.Bind();
-	shader.Bind();
+#include "../Mesh/Mesh.h"
+#include "Shader.h"
 
-	glDrawElements(GL_TRIANGLES, ib.GetCount(), GL_UNSIGNED_INT, nullptr);
+void Renderer::Render(Mesh* mesh, Shader* shader)
+{
+	glBindVertexArray(mesh->m_VAO);
+	shader->Bind();
+
+	glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(mesh->m_Indices.size()), GL_UNSIGNED_INT, nullptr);
+
+	shader->Unbind();
+	glBindVertexArray(0);
 }

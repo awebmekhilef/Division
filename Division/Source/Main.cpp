@@ -1,85 +1,78 @@
-#include "Divison.h"
+#define GLFW_INCLUDE_NONE
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
-#include "glm/glm.hpp"
-#include "glm/gtc/matrix_transform.hpp"
+#include "Division/Mesh/Quad.h"
+#include "Division/Rendering/Texture.h"
+#include "Division/Rendering/Shader.h"
+#include "Division/Rendering/Renderer.h"
+
+#include <stdlib.h>
+#include <stdlib.h>
+#include <iostream>
+
+#define WIDTH 1280
+#define HEIGHT 720
+
+void DebugMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
 
 int main()
 {
-	Window win("Division Engine", 1280, 720);
+	if (!glfwInit())
+		exit(EXIT_FAILURE);
 
-	float vertices[] = {
-		-0.5f,  0.5f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f, // Top left
-		-0.5f, -0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, // Bottom left
-		 0.5f,  0.5f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f, // Top right
-		 0.5f, -0.5f, 0.0f, 0.0f, 1.0f, 1.0f, 0.0f, // Bottom right
-	};
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-	unsigned int indices[] = {
-		0, 1, 2,
-		2, 1, 3,
-	};
+#ifdef _DEBUG
+	glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GLFW_TRUE);
+#endif
 
-	BufferLayout layout;
-	layout.Push(2, GL_FLOAT, false);
-	layout.Push(3, GL_FLOAT, false);
-	layout.Push(2, GL_FLOAT, false);
+	GLFWwindow* win = glfwCreateWindow(WIDTH, HEIGHT, "Division Engine", NULL, NULL);
 
-	VertexArray va;
+	if (!win)
+	{
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
 
-	VertexBuffer vb(vertices, sizeof(vertices));
-	IndexBuffer ib(indices, sizeof(indices) / sizeof(unsigned int));
+	glfwSetKeyCallback(win, KeyCallback);
 
-	va.AddBuffer(vb, layout);
+	glfwMakeContextCurrent(win);
+	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
+	glDebugMessageCallback(DebugMessageCallback, nullptr);
+
+	Quad quad(-0.5f, 0.5f);
+	Texture texture("Assets/Textures/Checkerboard.png");
 	Shader shader("Assets/Shaders/Sprite.glsl");
 
-	Texture texture("Assets/Textures/Checkerboard.png");
-	texture.Bind();
-
-	glm::mat4 view(1.0f);
-	view = glm::translate(view, glm::vec3(0.0f, 0.0f, -3.0f));
-
-	glm::mat4 proj = glm::perspective(
-		glm::radians(45.0f),
-		(float)win.GetWidth() / win.GetHeight(),
-		0.1f, 1000.0f);
-
-	float lastFrameTime = 0.0f;
-
-	glm::vec3 pos(0.0f);
-	float rotation = 0.0f;
-
-	while (win.IsOpen())
+	while (!glfwWindowShouldClose(win))
 	{
-		win.Clear();
+		glClear(GL_COLOR_BUFFER_BIT);
 
-		float time = Time::GetTime();
-		float dt = time - lastFrameTime;
-		lastFrameTime = time;
+		Renderer::Render(&quad, &shader);
 
-		if (Input::IsKeyHeld(GLFW_KEY_A))
-			pos.x -= 5.0f * dt;
-		else if (Input::IsKeyHeld(GLFW_KEY_D))
-			pos.x += 5.0f * dt;
-		if (Input::IsKeyHeld(GLFW_KEY_W))
-			pos.y += 5.0f * dt;
-		else if (Input::IsKeyHeld(GLFW_KEY_S))
-			pos.y -= 5.0f * dt;
-
-		if (Input::IsKeyHeld(GLFW_KEY_ESCAPE))
-			win.Close();
-
-		rotation += 45.0f * dt;
-
-		glm::mat4 model(1.0f);
-		model = glm::translate(model, pos);
-		model = glm::rotate(model, glm::radians(rotation), glm::vec3(0.0f, 0.0f, 1.0f));
-
-		glm::mat4 mvp = proj * view * model;
-		shader.SetMat4("uMVP", mvp);
-
-		Renderer::Draw(va, ib, shader);
-
-		win.Update();
+		glfwSwapBuffers(win);
+		glfwPollEvents();
 	}
+}
+
+void DebugMessageCallback(GLenum source,
+	GLenum type,
+	GLuint id,
+	GLenum severity,
+	GLsizei length,
+	const GLchar* message,
+	const void* userParam)
+{
+	std::cout << message << std::endl;
+}
+
+void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+		glfwSetWindowShouldClose(window, GLFW_TRUE);
 }

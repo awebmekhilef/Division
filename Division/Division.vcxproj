@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DV_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;Source\Vendor;Source\Division;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;Source\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -121,7 +121,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DV_BUILD_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;Source\Vendor;Source\Division;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;Source\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -133,30 +133,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Division\Core\Input.cpp" />
-    <ClCompile Include="Source\Division\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Division\Rendering\Shader.cpp" />
-    <ClCompile Include="Source\Division\Rendering\BufferLayout.cpp" />
-    <ClCompile Include="Source\Division\Rendering\Buffer.cpp" />
-    <ClCompile Include="Source\Division\Core\Window.cpp" />
+    <ClCompile Include="Source\Division\Rendering\Renderer.cpp" />
+    <ClCompile Include="Source\Division\Mesh\Quad.cpp" />
+    <ClCompile Include="Source\Division\Mesh\Mesh.cpp" />
     <ClCompile Include="Source\Main.cpp" />
     <ClCompile Include="Source\Vendor\glad.c" />
-    <ClCompile Include="Source\Division\Rendering\VertexArray.cpp" />
-    <ClCompile Include="Source\Division\Rendering\Texture.cpp" />
     <ClCompile Include="Source\Vendor\glm\detail\glm.cpp" />
     <ClCompile Include="Source\Vendor\stb_image\stb_image.cpp" />
+    <ClCompile Include="Source\Division\Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Source\Division\Core\Input.h" />
-    <ClInclude Include="Source\Division\Rendering\Renderer.h" />
     <ClInclude Include="Source\Division\Rendering\Shader.h" />
-    <ClInclude Include="Source\Division\Rendering\BufferLayout.h" />
-    <ClInclude Include="Source\Division\Rendering\Buffer.h" />
-    <ClInclude Include="Source\Division\Core\Time.h" />
-    <ClInclude Include="Source\Division\Core\Window.h" />
-    <ClInclude Include="Source\Division\Rendering\VertexArray.h" />
-    <ClInclude Include="Source\Division\Rendering\Texture.h" />
-    <ClInclude Include="Source\Division\Divison.h" />
+    <ClInclude Include="Source\Division\Rendering\Renderer.h" />
+    <ClInclude Include="Source\Division\Mesh\Quad.h" />
+    <ClInclude Include="Source\Division\Mesh\Mesh.h" />
     <ClInclude Include="Source\Vendor\glm\common.hpp" />
     <ClInclude Include="Source\Vendor\glm\detail\compute_common.hpp" />
     <ClInclude Include="Source\Vendor\glm\detail\compute_vector_relational.hpp" />
@@ -440,6 +431,7 @@
     <ClInclude Include="Source\Vendor\glm\vec4.hpp" />
     <ClInclude Include="Source\Vendor\glm\vector_relational.hpp" />
     <ClInclude Include="Source\Vendor\stb_image\stb_image.h" />
+    <ClInclude Include="Source\Division\Rendering\Texture.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Sprite.glsl" />

@@ -1,8 +1,8 @@
 #include "Shader.h"
 
-#include "glm/gtc/type_ptr.hpp"
-
+#include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
+
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -123,7 +123,7 @@ unsigned int Shader::CreateShaderProgram(const std::string& vertSrc, const std::
 	glUseProgram(m_RendererID);
 
 	// Delete flags it for deletion but only once it has been detached
-	// sometimes you want to leave it in memory to debug it
+	// sometimes you want to leave it in memory to debug
 	glDetachShader(m_RendererID, vShader);
 	glDetachShader(m_RendererID, fShader);
 	glDeleteShader(vShader);
