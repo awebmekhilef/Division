@@ -6,6 +6,7 @@
 #include "Division/Rendering/Texture.h"
 #include "Division/Rendering/Shader.h"
 #include "Division/Rendering/Renderer.h"
+#include "Division/Rendering/Material.h"
 
 #include <stdlib.h>
 #include <stdlib.h>
@@ -46,14 +47,18 @@ int main()
 	glDebugMessageCallback(DebugMessageCallback, nullptr);
 
 	Quad quad(-0.5f, 0.5f);
+
 	Texture texture("Assets/Textures/Checkerboard.png");
 	Shader shader("Assets/Shaders/Sprite.glsl");
+
+	Material mat(&shader);
+	mat.SetTexture("uTexture", &texture, 0);
 
 	while (!glfwWindowShouldClose(win))
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		Renderer::Render(&quad, &shader);
+		Renderer::Render(&quad, &mat);
 
 		glfwSwapBuffers(win);
 		glfwPollEvents();

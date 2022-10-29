@@ -20,9 +20,8 @@ public:
 	void Bind() const;
 	void Unbind() const;
 
-	void SetFloat(const std::string& name, float value);
-	void SetFloat3(const std::string& name, const glm::vec3& value);
-	void SetMat4(const std::string& name, const glm::mat4& value);
+	void UploadInt(const std::string& name, int value);
+	void UploadMat4(const std::string& name, const glm::mat4& value);
 
 private:
 	ShaderProgramSource ParseShaderFile(const std::string& filename);

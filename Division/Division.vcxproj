@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Division\Rendering\Material.cpp" />
     <ClCompile Include="Source\Division\Rendering\Shader.cpp" />
     <ClCompile Include="Source\Division\Rendering\Renderer.cpp" />
     <ClCompile Include="Source\Division\Mesh\Quad.cpp" />
@@ -144,10 +145,12 @@
     <ClCompile Include="Source\Division\Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Division\Rendering\Material.h" />
     <ClInclude Include="Source\Division\Rendering\Shader.h" />
     <ClInclude Include="Source\Division\Rendering\Renderer.h" />
     <ClInclude Include="Source\Division\Mesh\Quad.h" />
     <ClInclude Include="Source\Division\Mesh\Mesh.h" />
+    <ClInclude Include="Source\Division\Rendering\ShaderTypes.h" />
     <ClInclude Include="Source\Vendor\glm\common.hpp" />
     <ClInclude Include="Source\Vendor\glm\detail\compute_common.hpp" />
     <ClInclude Include="Source\Vendor\glm\detail\compute_vector_relational.hpp" />

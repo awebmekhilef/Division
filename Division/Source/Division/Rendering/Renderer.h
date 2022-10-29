@@ -1,10 +1,10 @@
 #pragma once
 
 class Mesh;
-class Shader;
+class Material;
 
 class Renderer
 {
 public:
-	static void Render(Mesh* mesh, Shader* shader);
+	static void Render(Mesh* mesh, Material* material);
 };

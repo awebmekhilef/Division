@@ -34,19 +34,13 @@ void Shader::Unbind() const
 	glUseProgram(0);
 }
 
-void Shader::SetFloat(const std::string& name, float value)
+void Shader::UploadInt(const std::string& name, int value)
 {
 	unsigned int loc = glGetUniformLocation(m_RendererID, name.c_str());
-	glUniform1f(loc, value);
+	glUniform1i(loc, value);
 }
 
-void Shader::SetFloat3(const std::string& name, const glm::vec3& value)
-{
-	unsigned int loc = glGetUniformLocation(m_RendererID, name.c_str());
-	glUniform3f(loc, value.x, value.y, value.z);
-}
-
-void Shader::SetMat4(const std::string& name, const glm::mat4& value)
+void Shader::UploadMat4(const std::string& name, const glm::mat4& value)
 {
 	unsigned int loc = glGetUniformLocation(m_RendererID, name.c_str());
 	glUniformMatrix4fv(loc, 1, GL_FALSE, glm::value_ptr(value));
