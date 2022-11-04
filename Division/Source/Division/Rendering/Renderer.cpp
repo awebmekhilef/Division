@@ -3,16 +3,18 @@
 #include <glad/glad.h>
 
 #include "../Mesh/Mesh.h"
+#include "../Camera/Camera.h"
 #include "Material.h"
 #include "Texture.h"
 
-void Renderer::Render(Mesh* mesh, Material* material)
+void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 {
 	glBindVertexArray(mesh->m_VAO);
 
 	material->GetShader().Bind();
 
-	// TODO: Set MVP and camera pos
+	material->GetShader().UploadMat4("uMVP",
+		camera->GetViewProjectionMatrix() * glm::translate(glm::identity<glm::mat4>(), glm::vec3(0.0f)));
 
 	for (auto kv : material->GetUniformSamplers())
 	{

@@ -7,9 +7,11 @@ layout(location=2) in vec2 aUV;
 
 out vec2 vUV;
 
+uniform mat4 uMVP;
+
 void main()
 {
-	gl_Position = vec4(aPosition, 1.0);
+	gl_Position = uMVP * vec4(aPosition, 1.0);
 
 	vUV = aUV;
 }

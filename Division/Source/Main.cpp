@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 #include "Division/Mesh/Quad.h"
+#include "Division/Camera/Camera.h"
 #include "Division/Rendering/Texture.h"
 #include "Division/Rendering/Shader.h"
 #include "Division/Rendering/Renderer.h"
@@ -46,6 +47,9 @@ int main()
 
 	glDebugMessageCallback(DebugMessageCallback, nullptr);
 
+	Camera camera;
+	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
+
 	Quad quad(-0.5f, 0.5f);
 
 	Texture texture("Assets/Textures/Checkerboard.png");
@@ -58,7 +62,10 @@ int main()
 	{
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		Renderer::Render(&quad, &mat);
+		camera.ProcessInput(win, 0.0f);
+		camera.UpdateViewMatrix();
+
+		Renderer::Render(&quad, &mat, &camera);
 
 		glfwSwapBuffers(win);
 		glfwPollEvents();

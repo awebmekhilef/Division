@@ -133,6 +133,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Division\Camera\Camera.cpp" />
     <ClCompile Include="Source\Division\Rendering\Material.cpp" />
     <ClCompile Include="Source\Division\Rendering\Shader.cpp" />
     <ClCompile Include="Source\Division\Rendering\Renderer.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="Source\Division\Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Division\Camera\Camera.h" />
     <ClInclude Include="Source\Division\Rendering\Material.h" />
     <ClInclude Include="Source\Division\Rendering\Shader.h" />
     <ClInclude Include="Source\Division\Rendering\Renderer.h" />
