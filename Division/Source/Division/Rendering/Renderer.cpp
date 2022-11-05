@@ -37,7 +37,10 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 		}
 	}
 
-	glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(mesh->m_Indices.size()), GL_UNSIGNED_INT, nullptr);
+	if (mesh->m_Indices.size() > 0)
+		glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(mesh->m_Indices.size()), GL_UNSIGNED_INT, nullptr);
+	else
+		glDrawArrays(GL_TRIANGLES, 0, mesh->m_Vertices.size());
 
 	material->GetShader().Unbind();
 	glBindVertexArray(0);

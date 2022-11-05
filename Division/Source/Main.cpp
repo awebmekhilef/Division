@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 #include "Division/Mesh/Quad.h"
+#include "Division/Mesh/Cube.h"
 #include "Division/Camera/Camera.h"
 #include "Division/Rendering/Texture.h"
 #include "Division/Rendering/Shader.h"
@@ -45,13 +46,16 @@ int main()
 	glfwMakeContextCurrent(win);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
+	glEnable(GL_DEPTH_TEST);
+
 	glDebugMessageCallback(DebugMessageCallback, nullptr);
 
 	Camera camera;
 	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
 
 	Quad quad(-0.5f, 0.5f);
-
+	Cube cube;
+		
 	Texture texture("Assets/Textures/Checkerboard.png");
 	Shader shader("Assets/Shaders/Sprite.glsl");
 
@@ -60,12 +64,12 @@ int main()
 
 	while (!glfwWindowShouldClose(win))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		camera.ProcessInput(win, 0.0f);
 		camera.UpdateViewMatrix();
 
-		Renderer::Render(&quad, &mat, &camera);
+		Renderer::Render(&cube, &mat, &camera);
 
 		glfwSwapBuffers(win);
 		glfwPollEvents();
