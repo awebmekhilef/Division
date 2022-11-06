@@ -66,17 +66,38 @@ int main()
 	mat.SetTexture("uSpecular", &specular, 1);
 	mat.SetFloat("uShininess", 64.0f);
 
-	Light light = {
+	Light light1 = {
 		{ 0.0f, 2.0f, 3.0f },
 		{ 0.2f, 0.2f, 0.2f },
 		{ 0.7f, 0.7f, 0.7f },
 		{ 1.0f, 1.0f, 1.0f }
 	};
-	
-	mat.SetVec3("uLightPosition", light.Position);
-	mat.SetVec3("uLightAmbient", light.Ambient);
-	mat.SetVec3("uLightDiffuse", light.Diffuse);
-	mat.SetVec3("uLightSpecular", light.Specular);
+
+	Light light2 = {
+		{ 0.0f, 2.0f, -3.0f },
+		{ 0.2f, 0.2f, 0.2f },
+		{ 0.7f, 0.0f, 0.7f },
+		{ 1.0f, 1.0f, 0.0f }
+	};
+
+	Light light3 = {
+		{ 3.0f, 2.0f, 0.0f },
+		{ 0.2f, 0.2f, 0.2f },
+		{ 0.0f, 0.0f, 0.7f },
+		{ 0.0f, 1.0f, 1.0f }
+	};
+
+	Light light4 = {
+		{ 3.0f, 2.0f, 0.0f },
+		{ 0.2f, 0.2f, 0.2f },
+		{ 0.0f, 0.7f, 0.0f },
+		{ 1.0f, 0.0f, 1.0f }
+	};
+
+	Renderer::AddLight(&light1);
+	Renderer::AddLight(&light2);
+	Renderer::AddLight(&light3);
+	Renderer::AddLight(&light3);
 
 	while (!glfwWindowShouldClose(win))
 	{

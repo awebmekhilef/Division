@@ -4,8 +4,11 @@
 
 #include "../Mesh/Mesh.h"
 #include "../Camera/Camera.h"
+#include "../Lighting/Light.h"
 #include "Material.h"
 #include "Texture.h"
+
+std::vector<Light*> Renderer::m_Lights;
 
 void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 {
@@ -44,6 +47,16 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 		}
 	}
 
+	for (int i = 0; i < m_Lights.size(); i++)
+	{
+		material->GetShader().UploadVec3(std::string("uLights[") + std::to_string(i) + "].Position", m_Lights[i]->Position);
+		material->GetShader().UploadVec3(std::string("uLights[") + std::to_string(i) + "].Ambient", m_Lights[i]->Ambient);
+		material->GetShader().UploadVec3(std::string("uLights[") + std::to_string(i) + "].Diffuse", m_Lights[i]->Diffuse);
+		material->GetShader().UploadVec3(std::string("uLights[") + std::to_string(i) + "].Specular", m_Lights[i]->Specular);
+	}
+
+	material->GetShader().UploadInt("uLightCount", m_Lights.size());
+
 	if (mesh->m_Indices.size() > 0)
 		glDrawElements(GL_TRIANGLES, static_cast<unsigned int>(mesh->m_Indices.size()), GL_UNSIGNED_INT, nullptr);
 	else
@@ -51,4 +64,9 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 
 	material->GetShader().Unbind();
 	glBindVertexArray(0);
+}
+
+void Renderer::AddLight(Light* light)
+{
+	m_Lights.push_back(light);
 }

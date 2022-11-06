@@ -32,11 +32,17 @@ out vec4 FragColor;
 
 uniform vec3 uCameraPos;
 
-// Light attributes (only one for now)
-uniform vec3 uLightPosition;
-uniform vec3 uLightAmbient;
-uniform vec3 uLightDiffuse;
-uniform vec3 uLightSpecular;
+struct Light 
+{
+    vec3 Position;
+    vec3 Ambient;
+    vec3 Diffuse;
+    vec3 Specular;
+};
+
+#define MAX_LIGHTS 128
+uniform Light uLights[MAX_LIGHTS];
+uniform int uLightCount;
 
 // Material attributes
 uniform sampler2D uDiffuse;
@@ -45,21 +51,29 @@ uniform float uShininess;
 
 void main() 
 {
-	// Ambient
-    vec3 ambient = uLightAmbient * texture(uDiffuse, vUV).rgb;
-  	
-    // Diffuse 
-    vec3 norm = normalize(vNormal);
-    vec3 lightDir = normalize(uLightPosition - vFragPos);
-    float diff = max(dot(norm, lightDir), 0.0);
-    vec3 diffuse = uLightDiffuse * diff * texture(uDiffuse, vUV).rgb;  
-    
-    // Specular
-    vec3 viewDir = normalize(uCameraPos - vFragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), uShininess);
-    vec3 specular = uLightSpecular * spec * texture(uSpecular, vUV).rgb;  
+    vec3 result;
+
+    for (int i = 0; i < uLightCount; i++)
+    {
+        Light light = uLights[i];
+
+	    // Ambient
+        vec3 ambient = light.Ambient * texture(uDiffuse, vUV).rgb;
+  	    
+        // Diffuse 
+        vec3 norm = normalize(vNormal);
+        vec3 lightDir = normalize(light.Position - vFragPos);
+        float diff = max(dot(norm, lightDir), 0.0);
+        vec3 diffuse = light.Diffuse * diff * texture(uDiffuse, vUV).rgb;  
         
-    vec3 result = ambient + diffuse + specular;
+        // Specular
+        vec3 viewDir = normalize(uCameraPos - vFragPos);
+        vec3 reflectDir = reflect(-lightDir, norm);  
+        float spec = pow(max(dot(viewDir, reflectDir), 0.0), uShininess);
+        vec3 specular = light.Specular * spec * texture(uSpecular, vUV).rgb;  
+            
+        result += ambient + diffuse + specular;
+    }
+
     FragColor = vec4(result, 1.0);
 }
