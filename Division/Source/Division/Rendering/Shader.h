@@ -21,6 +21,8 @@ public:
 	void Unbind() const;
 
 	void UploadInt(const std::string& name, int value);
+	void UploadFloat(const std::string& name, float value);
+	void UploadVec3(const std::string& name, const glm::vec3& value);
 	void UploadMat4(const std::string& name, const glm::mat4& value);
 
 private:

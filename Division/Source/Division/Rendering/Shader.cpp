@@ -40,6 +40,18 @@ void Shader::UploadInt(const std::string& name, int value)
 	glUniform1i(loc, value);
 }
 
+void Shader::UploadFloat(const std::string& name, float value)
+{
+	unsigned int loc = glGetUniformLocation(m_RendererID, name.c_str());
+	glUniform1f(loc, value);
+}
+
+void Shader::UploadVec3(const std::string& name, const glm::vec3& value)
+{
+	unsigned int loc = glGetUniformLocation(m_RendererID, name.c_str());
+	glUniform3fv(loc, 1, glm::value_ptr(value));
+}
+
 void Shader::UploadMat4(const std::string& name, const glm::mat4& value)
 {
 	unsigned int loc = glGetUniformLocation(m_RendererID, name.c_str());

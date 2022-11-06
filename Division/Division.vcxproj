@@ -147,6 +147,7 @@
     <ClCompile Include="Source\Division\Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Division\Lighting\Light.h" />
     <ClInclude Include="Source\Division\Mesh\Cube.h" />
     <ClInclude Include="Source\Division\Camera\Camera.h" />
     <ClInclude Include="Source\Division\Rendering\Material.h" />
@@ -441,7 +442,7 @@
     <ClInclude Include="Source\Division\Rendering\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Shaders\Sprite.glsl" />
+    <None Include="Assets\Shaders\Basic.glsl" />
     <None Include="Source\Vendor\glm\detail\func_common.inl" />
     <None Include="Source\Vendor\glm\detail\func_common_simd.inl" />
     <None Include="Source\Vendor\glm\detail\func_exponential.inl" />

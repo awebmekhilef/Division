@@ -5,6 +5,7 @@
 
 struct GLFWwindow;
 
+// TODO: Abstract this out to subclass from fly and rotation camera
 class Camera
 {
 public:
@@ -12,6 +13,8 @@ public:
 
 	void UpdateViewMatrix();
 	void ProcessInput(GLFWwindow* win, float dt);
+
+	glm::vec3 GetPosition() const { return m_Position; }
 
 	glm::mat4 GetViewProjectionMatrix() const;
 

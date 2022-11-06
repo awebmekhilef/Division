@@ -5,6 +5,7 @@
 #include "Division/Mesh/Quad.h"
 #include "Division/Mesh/Cube.h"
 #include "Division/Camera/Camera.h"
+#include "Division/Lighting/Light.h"
 #include "Division/Rendering/Texture.h"
 #include "Division/Rendering/Shader.h"
 #include "Division/Rendering/Renderer.h"
@@ -55,12 +56,27 @@ int main()
 
 	Quad quad(-0.5f, 0.5f);
 	Cube cube;
-		
-	Texture texture("Assets/Textures/Checkerboard.png");
-	Shader shader("Assets/Shaders/Sprite.glsl");
+
+	Texture diffuse("Assets/Textures/Container.png");
+	Texture specular("Assets/Textures/Container_Specular.png");
+	Shader shader("Assets/Shaders/Basic.glsl");
 
 	Material mat(&shader);
-	mat.SetTexture("uTexture", &texture, 0);
+	mat.SetTexture("uDiffuse", &diffuse, 0);
+	mat.SetTexture("uSpecular", &specular, 1);
+	mat.SetFloat("uShininess", 64.0f);
+
+	Light light = {
+		{ 0.0f, 2.0f, 5.0f },
+		{ 0.2f, 0.2f, 0.2f },
+		{ 0.5f, 0.5f, 0.5f },
+		{ 1.0f, 1.0f, 1.0f }
+	};
+	
+	mat.SetVec3("uLightPosition", light.Position);
+	mat.SetVec3("uLightAmbient", light.Ambient);
+	mat.SetVec3("uLightDiffuse", light.Diffuse);
+	mat.SetVec3("uLightSpecular", light.Specular);
 
 	while (!glfwWindowShouldClose(win))
 	{

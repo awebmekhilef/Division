@@ -4,7 +4,9 @@ class Texture;
 
 enum class ShaderDataType
 {
-	Int, 
+	Int,
+	Float,
+	Vec3,
 	Mat4,
 	Texture2D
 };
@@ -18,6 +20,8 @@ struct UniformValue
 	union
 	{
 		int Int;
+		float Float;
+		glm::vec3 Vec3;
 		glm::mat4 Mat4;
 	};
 };
