@@ -28,6 +28,7 @@ public:
 	glm::vec3 GetScale() const;
 
 	glm::vec3 GetWorldPosition();
+	glm::vec3 GetWorldScale();
 
 	glm::mat4 GetTransform();
 	void UpdateTransform();

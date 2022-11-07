@@ -65,6 +65,14 @@ glm::vec3 Model::GetWorldPosition()
 	return glm::vec3(GetTransform() * glm::vec4(m_Position, 1.0f));
 }
 
+glm::vec3 Model::GetWorldScale()
+{
+	glm::mat4 transform = GetTransform();
+	glm::vec3 scale = glm::vec3(transform[0][0], transform[2][1], transform[2][2]);
+
+	return scale;
+}
+
 glm::mat4 Model::GetTransform()
 {
 	if (m_Dirty)

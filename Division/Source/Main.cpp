@@ -70,6 +70,7 @@ int main()
 
 	model1.SetPosition({ 0.0f, 3.0f, 1.0f });
 	model1.SetRotation({ 45.0f, 180.0f, 0.0f });
+	model1.SetScale({ 0.5f, 0.5f, 0.5f });
 	model1.AddChild(&model2);
 
 	Light light1 = {
