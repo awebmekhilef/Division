@@ -21,6 +21,7 @@
 
 void DebugMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void DrawMetricsWindow();
 
 int main()
 {
@@ -120,7 +121,7 @@ int main()
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui::NewFrame();
 
-		ImGui::ShowMetricsWindow();
+		DrawMetricsWindow();
 
 		ImGui::Render();
 
@@ -146,4 +147,14 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+void DrawMetricsWindow()
+{
+	ImGui::Begin("Metrics");
+	ImGui::Text("IMGUI Version: %s", ImGui::GetVersion());
+	ImGui::Text("Renderer: %s", glGetString(GL_RENDERER));
+	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+	ImGui::Text("%d visible windows, %d active allocations", ImGui::GetIO().MetricsRenderWindows, ImGui::GetIO().MetricsActiveAllocations);
+	ImGui::End();
 }

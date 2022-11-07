@@ -83,8 +83,6 @@ glm::mat4 Model::GetTransform()
 
 void Model::UpdateTransform()
 {
-	std::cout << "Here";
-
 	if (m_Dirty) 
 	{
 		m_Transform = glm::translate(m_Transform, m_Position);
