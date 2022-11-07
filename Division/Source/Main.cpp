@@ -52,7 +52,7 @@ int main()
 	Camera camera;
 	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
 
-	Model model("Assets/Models/backpack.obj");
+	Model model("Assets/Models/cyborg/cyborg.obj");
 
 	Light light1 = {
 		{ 0.0f, 2.0f, 3.0f },

@@ -19,7 +19,7 @@ void Camera::ProcessInput(GLFWwindow* win, float dt)
 
 	m_Position.x = sin(glfwGetTime()) * radius;
 	m_Position.z = cos(glfwGetTime()) * radius;
-	m_Position.y = 2.0f;
+	m_Position.y = 6.0f;
 }
 
 glm::mat4 Camera::GetViewProjectionMatrix() const
