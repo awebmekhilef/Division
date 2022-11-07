@@ -1,5 +1,7 @@
 #pragma once
 
+#include "glm/glm.hpp"
+
 #include <vector>
 
 class Mesh;
@@ -12,7 +14,7 @@ struct Light;
 class Renderer
 {
 public:
-	static void Render(Mesh* mesh, Material* material, Camera* camera);
+	static void Render(Mesh* mesh, Material* material, Camera* camera, const glm::mat4& transform);
 	static void Render(Model* model, Camera* camera);
 
 	static void AddLight(Light* light);

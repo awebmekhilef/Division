@@ -13,7 +13,7 @@
 std::vector<Light*> Renderer::m_Lights;
 Shader* Renderer::m_DefaultShader;
 
-void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
+void Renderer::Render(Mesh* mesh, Material* material, Camera* camera, const glm::mat4& transform)
 {
 	glBindVertexArray(mesh->m_VAO);
 
@@ -21,7 +21,7 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 
 	shader.Bind();
 
-	shader.UploadMat4("uModel", glm::translate(glm::identity<glm::mat4>(), glm::vec3(0.0f)));
+	shader.UploadMat4("uModel", transform);
 	shader.UploadMat4("uViewProj", camera->GetViewProjectionMatrix());
 	shader.UploadVec3("uCameraPos", camera->GetPosition());
 
@@ -78,7 +78,7 @@ void Renderer::Render(Model* model, Camera* camera)
 		Mesh* mesh = model->GetMeshPair(i).first;
 		Material* mat = model->GetMeshPair(i).second;
 
-		Renderer::Render(mesh, mat, camera);
+		Renderer::Render(mesh, mat, camera, model->GetTransform());
 	}
 }
 

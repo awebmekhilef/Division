@@ -68,6 +68,10 @@ int main()
 	Model model1("Assets/Models/cyborg/cyborg.obj");
 	Model model2("Assets/Models/backpack/backpack.obj");
 
+	model1.SetPosition({ 0.0f, 3.0f, 1.0f });
+	model1.SetRotation({ 45.0f, 180.0f, 0.0f });
+	model1.AddChild(&model2);
+
 	Light light1 = {
 		{ 0.0f, 2.0f, 3.0f },
 		{ 0.2f, 0.2f, 0.2f },
