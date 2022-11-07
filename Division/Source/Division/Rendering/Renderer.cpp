@@ -3,12 +3,15 @@
 #include <glad/glad.h>
 
 #include "../Mesh/Mesh.h"
+#include "../Mesh/Model.h"
 #include "../Camera/Camera.h"
 #include "../Lighting/Light.h"
 #include "Material.h"
 #include "Texture.h"
+#include "Shader.h"
 
 std::vector<Light*> Renderer::m_Lights;
+Shader* Renderer::m_DefaultShader;
 
 void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 {
@@ -66,7 +69,26 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 	glBindVertexArray(0);
 }
 
+void Renderer::Render(Model* model, Camera* camera)
+{
+	for (size_t i = 0; i < model->GetMeshCount(); i++)
+	{
+		Mesh* mesh = model->GetMeshPair(i).first;
+		Material* mat = model->GetMeshPair(i).second;
+
+		Renderer::Render(mesh, mat, camera);
+	}
+}
+
 void Renderer::AddLight(Light* light)
 {
 	m_Lights.push_back(light);
+}
+
+Shader* Renderer::GetDefaultShader()
+{
+	if (!m_DefaultShader)
+		m_DefaultShader = new Shader("Assets/Shaders/Default.glsl");
+
+	return m_DefaultShader;
 }

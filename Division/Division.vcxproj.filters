@@ -51,6 +51,9 @@
     <ClCompile Include="Source\Division\Mesh\Cube.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Division\Mesh\Model.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Vendor\stb_image\stb_image.h">
@@ -932,6 +935,9 @@
     <ClInclude Include="Source\Division\Lighting\Light.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Division\Mesh\Model.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Vendor\glm\detail\func_common.inl">
@@ -1342,6 +1348,6 @@
     <None Include="Source\Vendor\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
-    <None Include="Assets\Shaders\Basic.glsl" />
+    <None Include="Assets\Shaders\Default.glsl" />
   </ItemGroup>
 </Project>

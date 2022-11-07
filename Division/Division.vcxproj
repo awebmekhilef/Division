@@ -104,13 +104,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DV_BUILD_DLL;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;Source\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;$(SolutionDir)Dependencies\assimp\include;Source\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -121,18 +121,19 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>DV_BUILD_DLL;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;Source\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLAD\include;$(SolutionDir)Dependencies\assimp\include;Source\Vendor;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\GLFW\lib-vc2022;$(SolutionDir)Dependencies\assimp\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>assimp-vc143-mt.lib;glfw3.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Source\Division\Mesh\Model.cpp" />
     <ClCompile Include="Source\Division\Mesh\Cube.cpp" />
     <ClCompile Include="Source\Division\Camera\Camera.cpp" />
     <ClCompile Include="Source\Division\Rendering\Material.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Source\Division\Rendering\Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Source\Division\Mesh\Model.h" />
     <ClInclude Include="Source\Division\Lighting\Light.h" />
     <ClInclude Include="Source\Division\Mesh\Cube.h" />
     <ClInclude Include="Source\Division\Camera\Camera.h" />
@@ -442,7 +444,7 @@
     <ClInclude Include="Source\Division\Rendering\Texture.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Assets\Shaders\Basic.glsl" />
+    <None Include="Assets\Shaders\Default.glsl" />
     <None Include="Source\Vendor\glm\detail\func_common.inl" />
     <None Include="Source\Vendor\glm\detail\func_common_simd.inl" />
     <None Include="Source\Vendor\glm\detail\func_exponential.inl" />

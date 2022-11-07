@@ -2,14 +2,11 @@
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
 
-#include "Division/Mesh/Quad.h"
-#include "Division/Mesh/Cube.h"
+#include "Division/Mesh/Model.h"
 #include "Division/Camera/Camera.h"
 #include "Division/Lighting/Light.h"
-#include "Division/Rendering/Texture.h"
 #include "Division/Rendering/Shader.h"
 #include "Division/Rendering/Renderer.h"
-#include "Division/Rendering/Material.h"
 
 #include <stdlib.h>
 #include <stdlib.h>
@@ -48,23 +45,14 @@ int main()
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
 	glEnable(GL_DEPTH_TEST);
+	glClearColor(0.53f, 0.8f, 0.92f, 1.0f);
 
 	glDebugMessageCallback(DebugMessageCallback, nullptr);
 
 	Camera camera;
 	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
 
-	Quad quad(-0.5f, 0.5f);
-	Cube cube;
-
-	Texture diffuse("Assets/Textures/Container.png");
-	Texture specular("Assets/Textures/Container_Specular.png");
-	Shader shader("Assets/Shaders/Basic.glsl");
-
-	Material mat(&shader);
-	mat.SetTexture("uDiffuse", &diffuse, 0);
-	mat.SetTexture("uSpecular", &specular, 1);
-	mat.SetFloat("uShininess", 64.0f);
+	Model model("Assets/Models/backpack.obj");
 
 	Light light1 = {
 		{ 0.0f, 2.0f, 3.0f },
@@ -106,7 +94,7 @@ int main()
 		camera.ProcessInput(win, 0.0f);
 		camera.UpdateViewMatrix();
 
-		Renderer::Render(&cube, &mat, &camera);
+		Renderer::Render(&model, &camera);
 
 		glfwSwapBuffers(win);
 		glfwPollEvents();

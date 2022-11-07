@@ -15,10 +15,10 @@ void Camera::UpdateViewMatrix()
 
 void Camera::ProcessInput(GLFWwindow* win, float dt)
 {
-	const float radius = 3.0f;
+	const float radius = 5.0f;
 
-	m_Position.x = sin(glfwGetTime() * 1.5f) * radius;
-	m_Position.z = cos(glfwGetTime() * 1.5f) * radius;
+	m_Position.x = sin(glfwGetTime()) * radius;
+	m_Position.z = cos(glfwGetTime()) * radius;
 	m_Position.y = 2.0f;
 }
 
