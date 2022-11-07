@@ -67,7 +67,7 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera)
 	else
 		glDrawArrays(GL_TRIANGLES, 0, static_cast<unsigned int>(mesh->m_Vertices.size()));
 
-	material->GetShader().Unbind();
+	shader.Unbind();
 	glBindVertexArray(0);
 }
 

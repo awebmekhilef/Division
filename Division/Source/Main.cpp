@@ -1,12 +1,16 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <imgui/imgui.h>
+#include <imgui/imgui_impl_glfw.h>
+#include <imgui/imgui_impl_opengl3.h>
 
 #include "Division/Mesh/Model.h"
 #include "Division/Camera/Camera.h"
 #include "Division/Lighting/Light.h"
 #include "Division/Rendering/Shader.h"
 #include "Division/Rendering/Renderer.h"
+
 
 #include <stdlib.h>
 #include <stdlib.h>
@@ -45,6 +49,12 @@ int main()
 	glfwMakeContextCurrent(win);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 
+	ImGui::CreateContext();
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplGlfw_InitForOpenGL(win, true);
+	ImGui_ImplOpenGL3_Init("#version 430 core");
+
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_MULTISAMPLE);
 
@@ -55,7 +65,8 @@ int main()
 	Camera camera;
 	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
 
-	Model model("Assets/Models/cyborg/cyborg.obj");
+	Model model1("Assets/Models/cyborg/cyborg.obj");
+	Model model2("Assets/Models/backpack/backpack.obj");
 
 	Light light1 = {
 		{ 0.0f, 2.0f, 3.0f },
@@ -97,7 +108,18 @@ int main()
 		camera.ProcessInput(win, 0.0f);
 		camera.UpdateViewMatrix();
 
-		Renderer::Render(&model, &camera);
+		Renderer::Render(&model1, &camera);
+		Renderer::Render(&model2, &camera);
+
+		ImGui_ImplGlfw_NewFrame();
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui::NewFrame();
+
+		ImGui::ShowMetricsWindow();
+
+		ImGui::Render();
+
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
 		glfwSwapBuffers(win);
 		glfwPollEvents();
