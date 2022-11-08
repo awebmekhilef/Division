@@ -84,6 +84,9 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera, const glm:
 
 void Renderer::Render(Model* model, Camera* camera)
 {
+	if (!model->DrawModel)
+		return;
+
 	for (size_t i = 0; i < model->GetMeshCount(); i++)
 	{
 		Mesh* mesh = model->GetMeshPair(i).first;

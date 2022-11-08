@@ -232,6 +232,8 @@ void Model::DrawDebugGui(int index)
 
 	if (ImGui::CollapsingHeader(("Model #" + std::to_string(index)).c_str()))
 	{
+		ImGui::Checkbox("Draw model", &DrawModel);
+
 		bool update = false;
 
 		update = ImGui::DragFloat3("Position", glm::value_ptr(m_Position), 0.25f) || update;

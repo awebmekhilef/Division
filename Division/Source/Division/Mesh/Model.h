@@ -40,6 +40,9 @@ public:
 
 	void DrawDebugGui(int index);
 
+public:
+	bool DrawModel = true;
+
 private:
 	void ProcessNode(aiNode* aiNode, const aiScene* aiScene);
 	std::pair<Mesh*, Material*> ProcessMesh(aiMesh* aiMesh, const aiScene* aiScene);

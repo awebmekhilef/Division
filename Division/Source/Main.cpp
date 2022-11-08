@@ -1,6 +1,7 @@
 #define GLFW_INCLUDE_NONE
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
+#include <glm/gtc/type_ptr.hpp>
 #include <imgui/imgui.h>
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
@@ -10,7 +11,6 @@
 #include "Division/Lighting/Light.h"
 #include "Division/Rendering/Shader.h"
 #include "Division/Rendering/Renderer.h"
-
 
 #include <stdlib.h>
 #include <stdlib.h>
@@ -27,7 +27,7 @@ void CursorPosCallback(GLFWwindow* window, double xPos, double yPos);
 void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
 
 void DrawMetricsWindow();
-void DrawModelsWindow(std::vector<Model*> models);
+void DrawPropertiesWindow(std::vector<Model*> models, std::vector<Light*> lights);
 
 // Global so it can be accessed in GLFW callbacks
 Camera camera;
@@ -90,30 +90,30 @@ int main()
 	models[1]->SetScale({ 0.5f, 0.5f, 0.5f });
 	models[0]->AddChild(models[1]);
 
-	std::vector<Light> lights;
+	std::vector<Light*> lights;
 
-	Light light1 = {
+	Light* light1 = new Light{
 		{ 0.0f, 2.5f, 3.0f },
 		{ 1.0f, 1.0f, 1.0f },
 		{ 1.0f, 1.0f, 1.0f }
 	};
 
-	Light light2 = {
+	Light* light2 = new Light{
 		{ 0.0f, 2.5f, -3.0f },
 		{ 1.0f, 0.0f, 1.0f },
-		{ 1.0f, 1.0f, 0.0f }
+		{ 1.0f, 1.0f, 1.0f }
 	};
 
-	Light light3 = {
+	Light* light3 = new Light{
 		{ -3.0f, 2.5f, 0.0f },
 		{ 0.0f, 0.0f, 1.0f },
-		{ 0.0f, 1.0f, 1.0f }
+		{ 1.0f, 1.0f, 1.0f }
 	};
 
-	Light light4 = {
+	Light* light4 = new Light{
 		{ 3.0f, 2.5f, 0.0f },
 		{ 0.0f, 1.0f, 0.0f },
-		{ 1.0f, 0.0f, 1.0f }
+		{ 1.0f, 1.0f, 1.0f }
 	};
 
 	lights.push_back(light1);
@@ -121,11 +121,10 @@ int main()
 	lights.push_back(light3);
 	lights.push_back(light4);
 
-	Renderer::AddLight(&lights[0]);
-	Renderer::AddLight(&lights[1]);
-	Renderer::AddLight(&lights[2]);
-	Renderer::AddLight(&lights[3]);
-
+	Renderer::AddLight(lights[0]);
+	Renderer::AddLight(lights[1]);
+	Renderer::AddLight(lights[2]);
+	Renderer::AddLight(lights[3]);
 
 	while (!glfwWindowShouldClose(win))
 	{
@@ -137,14 +136,14 @@ int main()
 			Renderer::Render(model, &camera);
 
 		for (auto light : lights)
-			Renderer::RenderLight(&light, &camera);
+			Renderer::RenderLight(light, &camera);
 
 		ImGui_ImplGlfw_NewFrame();
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui::NewFrame();
 
 		DrawMetricsWindow();
-		DrawModelsWindow(models);
+		DrawPropertiesWindow(models, lights);
 
 		ImGui::Render();
 
@@ -191,6 +190,7 @@ void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
 void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
 {
 	glViewport(0, 0, width, height);
+	camera.SetPerspective(45.0f, (float)width / height, 0.1f, 1000.0f);
 }
 
 void DrawMetricsWindow()
@@ -203,12 +203,29 @@ void DrawMetricsWindow()
 	ImGui::End();
 }
 
-void DrawModelsWindow(std::vector<Model*> models)
+void DrawPropertiesWindow(std::vector<Model*> models, std::vector<Light*> lights)
 {
-	ImGui::Begin("Models");
+	ImGui::Begin("Entity hierarchy");
 
 	for (int i = 0; i < models.size(); i++)
 		models[i]->DrawDebugGui(i);
+
+	for (int i = 0; i < lights.size(); i++)
+	{
+		Light* light = lights[i];
+
+		// little hack..
+		ImGui::PushID(light);
+
+		if (ImGui::CollapsingHeader(("Light #" + std::to_string(i)).c_str()))
+		{
+			ImGui::ColorEdit3("Color", glm::value_ptr(light->Diffuse));
+			ImGui::ColorEdit3("Specular", glm::value_ptr(light->Specular));
+			ImGui::DragFloat3("Position", glm::value_ptr(light->Position), 0.25f);
+		}
+
+		ImGui::PopID();
+	}
 
 	ImGui::End();
 }
