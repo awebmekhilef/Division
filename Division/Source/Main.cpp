@@ -21,6 +21,7 @@
 
 void DebugMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
 
 void DrawMetricsWindow();
 void DrawModelsWindow(std::vector<Model*> models);
@@ -48,6 +49,7 @@ int main()
 	}
 
 	glfwSetKeyCallback(win, KeyCallback);
+	glfwSetFramebufferSizeCallback(win, FrameBufferSizeCallback);
 
 	glfwMakeContextCurrent(win);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -76,7 +78,7 @@ int main()
 	models[0]->SetPosition({ 0.0f, 3.0f, 1.0f });
 	models[0]->SetRotation({ 45.0f, 180.0f, 0.0f });
 	models[1]->SetScale({ 0.5f, 0.5f, 0.5f });
-	// model1.AddChild(&model2);
+	models[0]->AddChild(models[1]);
 
 	Light light1 = {
 		{ 0.0f, 2.0f, 3.0f },
@@ -152,6 +154,11 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
 }
 
 void DrawMetricsWindow()
