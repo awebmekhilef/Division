@@ -1397,5 +1397,6 @@
       <Filter>Header Files</Filter>
     </None>
     <None Include="Assets\Shaders\Default.glsl" />
+    <None Include="Assets\Shaders\Light.glsl" />
   </ItemGroup>
 </Project>

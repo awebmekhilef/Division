@@ -35,7 +35,6 @@ uniform vec3 uCameraPos;
 struct Light 
 {
     vec3 Position;
-    vec3 Ambient;
     vec3 Diffuse;
     vec3 Specular;
 };
@@ -44,10 +43,14 @@ struct Light
 uniform Light uLights[MAX_LIGHTS];
 uniform int uLightCount;
 
+
 // Material attributes
 uniform sampler2D uDiffuse;
 uniform sampler2D uSpecular;
 uniform float uShininess;
+
+// Should be stored in scene data
+vec3 uAmbient = vec3(0.3f, 0.3f, 0.3f);
 
 void main() 
 {
@@ -58,7 +61,7 @@ void main()
         Light light = uLights[i];
 
 	    // Ambient
-        vec3 ambient = light.Ambient * texture(uDiffuse, vUV).rgb;
+        vec3 ambient = uAmbient * texture(uDiffuse, vUV).rgb;
   	    
         // Diffuse 
         vec3 norm = normalize(vNormal);

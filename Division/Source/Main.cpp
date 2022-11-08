@@ -67,6 +67,8 @@ int main()
 
 	glDebugMessageCallback(DebugMessageCallback, nullptr);
 
+	Renderer::Init();
+
 	Camera camera;
 	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
 
@@ -80,38 +82,42 @@ int main()
 	models[1]->SetScale({ 0.5f, 0.5f, 0.5f });
 	models[0]->AddChild(models[1]);
 
+	std::vector<Light> lights;
+
 	Light light1 = {
 		{ 0.0f, 2.0f, 3.0f },
-		{ 0.2f, 0.2f, 0.2f },
-		{ 0.7f, 0.7f, 0.7f },
+		{ 1.0f, 1.0f, 1.0f },
 		{ 1.0f, 1.0f, 1.0f }
 	};
 
 	Light light2 = {
 		{ 0.0f, 2.0f, -3.0f },
-		{ 0.2f, 0.2f, 0.2f },
-		{ 0.7f, 0.0f, 0.7f },
+		{ 1.0f, 0.0f, 1.0f },
 		{ 1.0f, 1.0f, 0.0f }
 	};
 
 	Light light3 = {
-		{ 3.0f, 2.0f, 0.0f },
-		{ 0.2f, 0.2f, 0.2f },
-		{ 0.0f, 0.0f, 0.7f },
+		{ -3.0f, 2.0f, 0.0f },
+		{ 0.0f, 0.0f, 1.0f },
 		{ 0.0f, 1.0f, 1.0f }
 	};
 
 	Light light4 = {
 		{ 3.0f, 2.0f, 0.0f },
-		{ 0.2f, 0.2f, 0.2f },
-		{ 0.0f, 0.7f, 0.0f },
+		{ 0.0f, 1.0f, 0.0f },
 		{ 1.0f, 0.0f, 1.0f }
 	};
 
-	Renderer::AddLight(&light1);
-	Renderer::AddLight(&light2);
-	Renderer::AddLight(&light3);
-	Renderer::AddLight(&light3);
+	lights.push_back(light1);
+	lights.push_back(light2);
+	lights.push_back(light3);
+	lights.push_back(light4);
+
+	Renderer::AddLight(&lights[0]);
+	Renderer::AddLight(&lights[1]);
+	Renderer::AddLight(&lights[2]);
+	Renderer::AddLight(&lights[3]);
+
 
 	while (!glfwWindowShouldClose(win))
 	{
@@ -122,6 +128,9 @@ int main()
 
 		for (auto* model : models)
 			Renderer::Render(model, &camera);
+
+		for (auto light : lights)
+			Renderer::RenderLight(&light, &camera);
 
 		ImGui_ImplGlfw_NewFrame();
 		ImGui_ImplOpenGL3_NewFrame();

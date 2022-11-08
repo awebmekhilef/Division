@@ -3,6 +3,7 @@
 #include <glad/glad.h>
 
 #include "../Mesh/Mesh.h"
+#include "../Mesh/Cube.h"
 #include "../Mesh/Model.h"
 #include "../Camera/Camera.h"
 #include "../Lighting/Light.h"
@@ -11,7 +12,18 @@
 #include "Shader.h"
 
 std::vector<Light*> Renderer::m_Lights;
+
 Shader* Renderer::m_DefaultShader;
+Material* Renderer::m_DebugLightMaterial;
+Cube* Renderer::m_DebugLightMesh;
+
+void Renderer::Init()
+{
+	m_DefaultShader = new Shader("Assets/Shaders/Default.glsl");
+	m_DebugLightMesh = new Cube();
+
+	m_DebugLightMaterial = new Material(new Shader("Assets/Shaders/Light.glsl"));
+}
 
 void Renderer::Render(Mesh* mesh, Material* material, Camera* camera, const glm::mat4& transform)
 {
@@ -55,7 +67,6 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera, const glm:
 	for (int i = 0; i < m_Lights.size(); i++)
 	{
 		shader.UploadVec3(std::string("uLights[") + std::to_string(i) + "].Position", m_Lights[i]->Position);
-		shader.UploadVec3(std::string("uLights[") + std::to_string(i) + "].Ambient", m_Lights[i]->Ambient);
 		shader.UploadVec3(std::string("uLights[") + std::to_string(i) + "].Diffuse", m_Lights[i]->Diffuse);
 		shader.UploadVec3(std::string("uLights[") + std::to_string(i) + "].Specular", m_Lights[i]->Specular);
 	}
@@ -82,6 +93,16 @@ void Renderer::Render(Model* model, Camera* camera)
 	}
 }
 
+void Renderer::RenderLight(Light* light, Camera* camera)
+{
+	glm::mat4 transform = glm::identity<glm::mat4>();
+	transform = glm::translate(transform, light->Position);
+	transform = glm::scale(transform, glm::vec3(0.25f));
+
+	m_DebugLightMaterial->SetVec3("uDiffuseColor", light->Diffuse);
+	Render(m_DebugLightMesh, m_DebugLightMaterial, camera, transform);
+}
+
 void Renderer::AddLight(Light* light)
 {
 	m_Lights.push_back(light);
@@ -89,8 +110,5 @@ void Renderer::AddLight(Light* light)
 
 Shader* Renderer::GetDefaultShader()
 {
-	if (!m_DefaultShader)
-		m_DefaultShader = new Shader("Assets/Shaders/Default.glsl");
-
 	return m_DefaultShader;
 }
