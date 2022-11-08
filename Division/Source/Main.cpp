@@ -21,10 +21,16 @@
 
 void DebugMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods);
+void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset);
+void CursorPosCallback(GLFWwindow* window, double xPos, double yPos);
 void FrameBufferSizeCallback(GLFWwindow* window, int width, int height);
 
 void DrawMetricsWindow();
 void DrawModelsWindow(std::vector<Model*> models);
+
+// Global so it can be accessed in GLFW callbacks
+Camera camera;
 
 int main()
 {
@@ -50,6 +56,9 @@ int main()
 
 	glfwSetKeyCallback(win, KeyCallback);
 	glfwSetFramebufferSizeCallback(win, FrameBufferSizeCallback);
+	glfwSetScrollCallback(win, ScrollCallback);
+	glfwSetCursorPosCallback(win, CursorPosCallback);
+	glfwSetMouseButtonCallback(win, MouseButtonCallback);
 
 	glfwMakeContextCurrent(win);
 	gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
@@ -69,7 +78,6 @@ int main()
 
 	Renderer::Init();
 
-	Camera camera;
 	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
 
 	std::vector<Model*> models = {
@@ -77,7 +85,7 @@ int main()
 		new Model("Assets/Models/backpack/backpack.obj")
 	};
 
-	models[0]->SetPosition({ 0.0f, 3.0f, 1.0f });
+	models[0]->SetPosition({ 0.0f, 0.0f, 0.0f });
 	models[0]->SetRotation({ 45.0f, 180.0f, 0.0f });
 	models[1]->SetScale({ 0.5f, 0.5f, 0.5f });
 	models[0]->AddChild(models[1]);
@@ -85,25 +93,25 @@ int main()
 	std::vector<Light> lights;
 
 	Light light1 = {
-		{ 0.0f, 2.0f, 3.0f },
+		{ 0.0f, 2.5f, 3.0f },
 		{ 1.0f, 1.0f, 1.0f },
 		{ 1.0f, 1.0f, 1.0f }
 	};
 
 	Light light2 = {
-		{ 0.0f, 2.0f, -3.0f },
+		{ 0.0f, 2.5f, -3.0f },
 		{ 1.0f, 0.0f, 1.0f },
 		{ 1.0f, 1.0f, 0.0f }
 	};
 
 	Light light3 = {
-		{ -3.0f, 2.0f, 0.0f },
+		{ -3.0f, 2.5f, 0.0f },
 		{ 0.0f, 0.0f, 1.0f },
 		{ 0.0f, 1.0f, 1.0f }
 	};
 
 	Light light4 = {
-		{ 3.0f, 2.0f, 0.0f },
+		{ 3.0f, 2.5f, 0.0f },
 		{ 0.0f, 1.0f, 0.0f },
 		{ 1.0f, 0.0f, 1.0f }
 	};
@@ -123,7 +131,6 @@ int main()
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		camera.ProcessInput(win, 0.0f);
 		camera.UpdateViewMatrix();
 
 		for (auto* model : models)
@@ -163,6 +170,22 @@ void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
+}
+
+void MouseButtonCallback(GLFWwindow* window, int button, int action, int mods)
+{
+	if (!ImGui::GetIO().WantCaptureMouse)
+		camera.MouseInput(button, action);
+}
+
+void ScrollCallback(GLFWwindow* window, double xOffset, double yOffset)
+{
+	camera.ScrollInput(yOffset);
+}
+
+void CursorPosCallback(GLFWwindow* window, double xPos, double yPos)
+{
+	camera.CusorInput(xPos, yPos);
 }
 
 void FrameBufferSizeCallback(GLFWwindow* window, int width, int height)

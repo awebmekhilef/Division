@@ -100,6 +100,7 @@ void Renderer::RenderLight(Light* light, Camera* camera)
 	transform = glm::scale(transform, glm::vec3(0.25f));
 
 	m_DebugLightMaterial->SetVec3("uDiffuseColor", light->Diffuse);
+
 	Render(m_DebugLightMesh, m_DebugLightMaterial, camera, transform);
 }
 
