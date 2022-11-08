@@ -21,7 +21,9 @@
 
 void DebugMessageCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar* message, const void* userParam);
 void KeyCallback(GLFWwindow* window, int key, int scancode, int action, int mods);
+
 void DrawMetricsWindow();
+void DrawModelsWindow(std::vector<Model*> models);
 
 int main()
 {
@@ -66,13 +68,15 @@ int main()
 	Camera camera;
 	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
 
-	Model model1("Assets/Models/cyborg/cyborg.obj");
-	Model model2("Assets/Models/backpack/backpack.obj");
+	std::vector<Model*> models = {
+		new Model("Assets/Models/cyborg/cyborg.obj"),
+		new Model("Assets/Models/backpack/backpack.obj")
+	};
 
-	model1.SetPosition({ 0.0f, 3.0f, 1.0f });
-	model1.SetRotation({ 45.0f, 180.0f, 0.0f });
-	model1.SetScale({ 0.5f, 0.5f, 0.5f });
-	model1.AddChild(&model2);
+	models[0]->SetPosition({ 0.0f, 3.0f, 1.0f });
+	models[0]->SetRotation({ 45.0f, 180.0f, 0.0f });
+	models[1]->SetScale({ 0.5f, 0.5f, 0.5f });
+	// model1.AddChild(&model2);
 
 	Light light1 = {
 		{ 0.0f, 2.0f, 3.0f },
@@ -114,14 +118,15 @@ int main()
 		camera.ProcessInput(win, 0.0f);
 		camera.UpdateViewMatrix();
 
-		Renderer::Render(&model1, &camera);
-		Renderer::Render(&model2, &camera);
+		for (auto* model : models)
+			Renderer::Render(model, &camera);
 
 		ImGui_ImplGlfw_NewFrame();
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui::NewFrame();
 
 		DrawMetricsWindow();
+		DrawModelsWindow(models);
 
 		ImGui::Render();
 
@@ -156,5 +161,15 @@ void DrawMetricsWindow()
 	ImGui::Text("Renderer: %s", glGetString(GL_RENDERER));
 	ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
 	ImGui::Text("%d visible windows, %d active allocations", ImGui::GetIO().MetricsRenderWindows, ImGui::GetIO().MetricsActiveAllocations);
+	ImGui::End();
+}
+
+void DrawModelsWindow(std::vector<Model*> models)
+{
+	ImGui::Begin("Models");
+
+	for (int i = 0; i < models.size(); i++)
+		models[i]->DrawDebugGui(i);
+
 	ImGui::End();
 }

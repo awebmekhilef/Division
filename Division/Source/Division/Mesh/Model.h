@@ -38,6 +38,8 @@ public:
 	unsigned int GetChildCount();
 	std::vector<Model*> GetChildren();
 
+	void DrawDebugGui(int index);
+
 private:
 	void ProcessNode(aiNode* aiNode, const aiScene* aiScene);
 	std::pair<Mesh*, Material*> ProcessMesh(aiMesh* aiMesh, const aiScene* aiScene);

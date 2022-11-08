@@ -4,6 +4,8 @@
 #include "../Rendering/Renderer.h"
 
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <imgui/imgui.h>
 
 #include <iostream>
 
@@ -83,22 +85,20 @@ glm::mat4 Model::GetTransform()
 
 void Model::UpdateTransform()
 {
-	if (m_Dirty) 
+	m_Transform = glm::identity<glm::mat4>();
+	m_Transform = glm::translate(m_Transform, m_Position);
+	m_Transform = glm::rotate(m_Transform, glm::radians(m_Rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
+	m_Transform = glm::rotate(m_Transform, glm::radians(m_Rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
+	m_Transform = glm::rotate(m_Transform, glm::radians(m_Rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
+	m_Transform = glm::scale(m_Transform, m_Scale);
+
+	if (m_Parent)
+		m_Transform = m_Parent->m_Transform * m_Transform;
+
+	for (size_t i = 0; i < m_Children.size(); i++)
 	{
-		m_Transform = glm::translate(m_Transform, m_Position);
-		m_Transform = glm::rotate(m_Transform, glm::radians(m_Rotation.x), glm::vec3(1.0f, 0.0f, 0.0f));
-		m_Transform = glm::rotate(m_Transform, glm::radians(m_Rotation.y), glm::vec3(0.0f, 1.0f, 0.0f));
-		m_Transform = glm::rotate(m_Transform, glm::radians(m_Rotation.z), glm::vec3(0.0f, 0.0f, 1.0f));
-		m_Transform = glm::scale(m_Transform, m_Scale);
-
-		if (m_Parent)
-			m_Transform = m_Parent->m_Transform * m_Transform;
-
-		for (size_t i = 0; i < m_Children.size(); i++)
-		{
-			m_Children[i]->m_Dirty = true;
-			m_Children[i]->UpdateTransform();
-		}
+		m_Children[i]->m_Dirty = true;
+		m_Children[i]->UpdateTransform();
 	}
 
 	m_Dirty = false;
@@ -117,7 +117,7 @@ void Model::AddChild(Model* model)
 void Model::RemoveChild(Model* model)
 {
 	auto it = std::find(m_Children.begin(), m_Children.end(), model);
-	if (it != m_Children.end()) 
+	if (it != m_Children.end())
 	{
 		m_Children.erase(it);
 		model->m_Parent = nullptr;
@@ -186,7 +186,7 @@ std::pair<Mesh*, Material*> Model::ProcessMesh(aiMesh* aiMesh, const aiScene* ai
 
 	Mesh* mesh = new Mesh(vertices, indices);
 	mesh->Finalize();
-	
+
 	// Create a material for each mesh
 	Material* mat = ProcessMaterial(aiScene->mMaterials[aiMesh->mMaterialIndex], aiScene);
 
@@ -224,4 +224,23 @@ Texture* Model::LoadTexture(aiMaterial* aiMaterial, aiTextureType type)
 	}
 	else
 		return m_LoadedTextures.at(file);
+}
+
+void Model::DrawDebugGui(int index)
+{
+	ImGui::PushID(index);
+
+	if (ImGui::CollapsingHeader(("Model #" + std::to_string(index)).c_str()))
+	{
+		bool update = false;
+
+		update = ImGui::DragFloat3("Position", glm::value_ptr(m_Position), 0.25f) || update;
+		update = ImGui::DragFloat3("Rotation", glm::value_ptr(m_Rotation), 0.25f) || update;
+		update = ImGui::DragFloat3("Scale", glm::value_ptr(m_Scale), 0.05f) || update;
+
+		if (update)
+			m_Dirty = true;
+	}
+
+	ImGui::PopID();
 }
