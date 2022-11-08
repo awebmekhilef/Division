@@ -26,7 +26,6 @@ private:
 private:
 	glm::vec3 m_Position = glm::vec3(0.0f);
 	glm::vec3 m_Rotation = glm::vec3(0.0f);
-	glm::vec3 m_Up = glm::vec3(0.0f);
 
 	glm::vec2 m_LastMousePos = glm::vec3(0.0f);
 

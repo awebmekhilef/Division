@@ -65,6 +65,7 @@ int main()
 
 	ImGui::CreateContext();
 	ImGui::StyleColorsDark();
+	ImGui::GetIO().ConfigWindowsMoveFromTitleBarOnly = true;
 
 	ImGui_ImplGlfw_InitForOpenGL(win, true);
 	ImGui_ImplOpenGL3_Init("#version 430 core");
