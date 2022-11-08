@@ -12,7 +12,7 @@
 Model::Model(const std::string& filepath)
 {
 	Assimp::Importer imp;
-	const aiScene* aiScene = imp.ReadFile(filepath, aiProcess_Triangulate | aiProcess_FlipUVs);
+	const aiScene* aiScene = imp.ReadFile(filepath, aiProcess_Triangulate);
 
 	m_FileDirectory = filepath.substr(0, filepath.find_last_of('/'));
 
