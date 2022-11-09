@@ -26,6 +26,14 @@ void Renderer::Init()
 	m_DefaultShader = new Shader("Assets/Shaders/Default.glsl");
 	m_DebugLightMaterial = new Material(new Shader("Assets/Shaders/Light.glsl"));
 	m_SkyboxMaterial = new Material(new Shader("Assets/Shaders/Skybox.glsl"));
+
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_MULTISAMPLE);
+
+	glClearColor(0.53f, 0.8f, 0.92f, 1.0f);
+
+	glEnable(GL_CULL_FACE);
+	glCullFace(GL_BACK);
 }
 
 void Renderer::Render(Mesh* mesh, Material* material, Camera* camera, const glm::mat4& transform)
@@ -117,9 +125,11 @@ void Renderer::RenderLight(Light* light, Camera* camera)
 void Renderer::RenderSkybox(Mesh* mesh, Material* material, Camera* camera)
 {
 	glDepthMask(GL_FALSE);
+	glDisable(GL_CULL_FACE);
 
 	Render(mesh, material, camera, glm::mat4(glm::mat3(camera->GetViewMatrix())));
 
+	glEnable(GL_CULL_FACE);
 	glDepthMask(GL_TRUE);
 }
 

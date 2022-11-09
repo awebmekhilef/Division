@@ -72,11 +72,6 @@ int main()
 	ImGui_ImplGlfw_InitForOpenGL(win, true);
 	ImGui_ImplOpenGL3_Init("#version 430 core");
 
-	glEnable(GL_DEPTH_TEST);
-	glEnable(GL_MULTISAMPLE);
-
-	glClearColor(0.53f, 0.8f, 0.92f, 1.0f);
-
 	glDebugMessageCallback(DebugMessageCallback, nullptr);
 
 	Renderer::Init();
