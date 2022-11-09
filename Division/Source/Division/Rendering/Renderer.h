@@ -10,6 +10,7 @@ class Model;
 class Material;
 class Camera;
 class Shader;
+class TextureCube;
 struct Light;
 
 class Renderer
@@ -20,6 +21,7 @@ public:
 	static void Render(Mesh* mesh, Material* material, Camera* camera, const glm::mat4& transform);
 	static void Render(Model* model, Camera* camera);
 	static void RenderLight(Light* light, Camera* camera);
+	static void RenderSkybox(Mesh* mesh, Material* material, Camera* camera);
 
 	static void AddLight(Light* light);
 
@@ -31,5 +33,6 @@ private:
 	// Not the best place (move to resource manager)
 	static Shader* m_DefaultShader;
 	static Material* m_DebugLightMaterial;
+	static Material* m_SkyboxMaterial;
 	static Cube* m_DebugLightMesh;
 };

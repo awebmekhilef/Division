@@ -1,6 +1,7 @@
 #pragma once
 
 class Texture;
+class TextureCube;
 
 enum class ShaderDataType
 {
@@ -8,7 +9,8 @@ enum class ShaderDataType
 	Float,
 	Vec3,
 	Mat4,
-	Texture2D
+	Texture2D,
+	TextureCube
 };
 
 struct UniformValue
@@ -30,5 +32,10 @@ struct UniformSamplerValue
 {
 	ShaderDataType Type;
 	unsigned int Unit;
-	Texture* Texture;
+
+	union
+	{
+		Texture* Texture;
+		TextureCube* TextureCube;
+	};
 };

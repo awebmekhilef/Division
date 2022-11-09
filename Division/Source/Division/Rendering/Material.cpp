@@ -34,8 +34,18 @@ void Material::SetTexture(const std::string& name, Texture* texture, unsigned in
 	m_UniformSamplers[name].Texture = texture;
 	m_UniformSamplers[name].Unit = unit;
 
-	// TODO: Check if cubemap texture
 	m_UniformSamplers[name].Type = ShaderDataType::Texture2D;
+
+	m_Shader->Bind();
+	m_Shader->UploadInt(name, unit);
+}
+
+void Material::SetTextureCube(const std::string& name, TextureCube* texture, unsigned int unit)
+{
+	m_UniformSamplers[name].TextureCube = texture;
+	m_UniformSamplers[name].Unit = unit;
+
+	m_UniformSamplers[name].Type = ShaderDataType::TextureCube;
 
 	m_Shader->Bind();
 	m_Shader->UploadInt(name, unit);

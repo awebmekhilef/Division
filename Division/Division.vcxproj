@@ -153,6 +153,7 @@
     <ClCompile Include="Source\Vendor\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Source\Vendor\stb_image\stb_image.cpp" />
     <ClCompile Include="Source\Division\Rendering\Texture.cpp" />
+    <ClCompile Include="Source\Division\Rendering\TextureCube.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Division\Mesh\Model.h" />
@@ -458,10 +459,12 @@
     <ClInclude Include="Source\Vendor\imgui\imstb_truetype.h" />
     <ClInclude Include="Source\Vendor\stb_image\stb_image.h" />
     <ClInclude Include="Source\Division\Rendering\Texture.h" />
+    <ClInclude Include="Source\Division\Rendering\TextureCube.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Default.glsl" />
     <None Include="Assets\Shaders\Light.glsl" />
+    <None Include="Assets\Shaders\Skybox.glsl" />
     <None Include="Source\Vendor\glm\detail\func_common.inl" />
     <None Include="Source\Vendor\glm\detail\func_common_simd.inl" />
     <None Include="Source\Vendor\glm\detail\func_exponential.inl" />

@@ -68,7 +68,12 @@ glm::vec3 Camera::GetPosition() const
 	return m_Position;
 }
 
-glm::mat4 Camera::GetViewProjectionMatrix() const
+glm::mat4 Camera::GetViewMatrix() const
 {
-	return m_ProjMatrix * m_ViewMatrix;
+	return m_ViewMatrix;
+}
+
+glm::mat4 Camera::GetProjectionMatrix() const
+{
+	return m_ProjMatrix;
 }

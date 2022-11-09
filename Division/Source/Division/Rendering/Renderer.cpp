@@ -10,19 +10,22 @@
 #include "Material.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "TextureCube.h"
 
 std::vector<Light*> Renderer::m_Lights;
 
 Shader* Renderer::m_DefaultShader;
 Material* Renderer::m_DebugLightMaterial;
+Material* Renderer::m_SkyboxMaterial;
 Cube* Renderer::m_DebugLightMesh;
 
 void Renderer::Init()
 {
-	m_DefaultShader = new Shader("Assets/Shaders/Default.glsl");
 	m_DebugLightMesh = new Cube();
 
+	m_DefaultShader = new Shader("Assets/Shaders/Default.glsl");
 	m_DebugLightMaterial = new Material(new Shader("Assets/Shaders/Light.glsl"));
+	m_SkyboxMaterial = new Material(new Shader("Assets/Shaders/Skybox.glsl"));
 }
 
 void Renderer::Render(Mesh* mesh, Material* material, Camera* camera, const glm::mat4& transform)
@@ -34,12 +37,16 @@ void Renderer::Render(Mesh* mesh, Material* material, Camera* camera, const glm:
 	shader.Bind();
 
 	shader.UploadMat4("uModel", transform);
-	shader.UploadMat4("uViewProj", camera->GetViewProjectionMatrix());
+	shader.UploadMat4("uProj", camera->GetProjectionMatrix());
+	shader.UploadMat4("uView", camera->GetViewMatrix());
 	shader.UploadVec3("uCameraPos", camera->GetPosition());
 
 	for (auto kv : material->GetUniformSamplers())
 	{
-		kv.second.Texture->Bind(kv.second.Unit);
+		if (kv.second.Type == ShaderDataType::Texture2D)
+			kv.second.Texture->Bind(kv.second.Unit);
+		else
+			kv.second.TextureCube->Bind(kv.second.Unit);
 	}
 
 	for (auto kv : material->GetUniforms())
@@ -105,6 +112,15 @@ void Renderer::RenderLight(Light* light, Camera* camera)
 	m_DebugLightMaterial->SetVec3("uDiffuseColor", light->Diffuse);
 
 	Render(m_DebugLightMesh, m_DebugLightMaterial, camera, transform);
+}
+
+void Renderer::RenderSkybox(Mesh* mesh, Material* material, Camera* camera)
+{
+	glDepthMask(GL_FALSE);
+
+	Render(mesh, material, camera, glm::mat4(glm::mat3(camera->GetViewMatrix())));
+
+	glDepthMask(GL_TRUE);
 }
 
 void Renderer::AddLight(Light* light)

@@ -6,11 +6,13 @@
 #include <imgui/imgui_impl_glfw.h>
 #include <imgui/imgui_impl_opengl3.h>
 
+#include "Division/Mesh/Cube.h"
 #include "Division/Mesh/Model.h"
 #include "Division/Camera/Camera.h"
 #include "Division/Lighting/Light.h"
 #include "Division/Rendering/Shader.h"
 #include "Division/Rendering/Renderer.h"
+#include "Division/Rendering/TextureCube.h"
 
 #include <stdlib.h>
 #include <stdlib.h>
@@ -81,6 +83,8 @@ int main()
 
 	camera.SetPerspective(45.0f, (float)WIDTH / HEIGHT, 0.1f, 1000.0f);
 
+	/* ========= MODELS ========= */
+
 	std::vector<Model*> models = {
 		new Model("Assets/Models/cyborg/cyborg.obj"),
 		new Model("Assets/Models/backpack/backpack.obj")
@@ -90,6 +94,8 @@ int main()
 	models[0]->SetRotation({ 45.0f, 180.0f, 0.0f });
 	models[1]->SetScale({ 0.5f, 0.5f, 0.5f });
 	models[0]->AddChild(models[1]);
+
+	/* ========= LIGHTS ========= */
 
 	std::vector<Light*> lights;
 
@@ -127,11 +133,21 @@ int main()
 	Renderer::AddLight(lights[2]);
 	Renderer::AddLight(lights[3]);
 
+	/* ========= SKYBOX ========= */
+
+	Cube skyboxCube;
+	TextureCube skyboxTexture("Assets/Textures/Skybox/");
+	Material skyboxMaterial(new Shader("Assets/Shaders/Skybox.glsl"));
+
+	skyboxMaterial.SetTextureCube("uSkybox", &skyboxTexture);
+
 	while (!glfwWindowShouldClose(win))
 	{
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		camera.UpdateViewMatrix();
+
+		Renderer::RenderSkybox(&skyboxCube, &skyboxMaterial, &camera); 
 
 		for (auto* model : models)
 			Renderer::Render(model, &camera);

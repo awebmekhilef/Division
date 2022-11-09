@@ -18,7 +18,8 @@ public:
 	void MouseInput(int button, int action);
 
 	glm::vec3 GetPosition() const;
-	glm::mat4 GetViewProjectionMatrix() const;
+	glm::mat4 GetViewMatrix() const;
+	glm::mat4 GetProjectionMatrix() const;
 
 private:
 	void UpdateSphericalPosition();

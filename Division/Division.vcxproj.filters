@@ -75,6 +75,9 @@
     <ClCompile Include="Source\Vendor\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\Division\Rendering\TextureCube.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\Vendor\stb_image\stb_image.h">
@@ -986,6 +989,9 @@
     <ClInclude Include="Source\Vendor\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Division\Rendering\TextureCube.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Source\Vendor\glm\detail\func_common.inl">
@@ -1398,5 +1404,6 @@
     </None>
     <None Include="Assets\Shaders\Default.glsl" />
     <None Include="Assets\Shaders\Light.glsl" />
+    <None Include="Assets\Shaders\Skybox.glsl" />
   </ItemGroup>
 </Project>

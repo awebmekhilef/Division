@@ -17,6 +17,7 @@ public:
 	void SetMat4(const std::string& name, const glm::mat4& value);
 
 	void SetTexture(const std::string& name, Texture* texture, unsigned int unit = 0);
+	void SetTextureCube(const std::string& name, TextureCube* texture, unsigned int unit = 0);
 
 	Shader& GetShader() const;
 

@@ -9,12 +9,13 @@ out vec2 vUV;
 out vec3 vNormal;
 out vec3 vFragPos;
 
-uniform mat4 uViewProj;
+uniform mat4 uProj;
+uniform mat4 uView;
 uniform mat4 uModel;
 
 void main()
 {
-	gl_Position = uViewProj * uModel * vec4(aPosition, 1.0);
+	gl_Position = uProj * uView * uModel * vec4(aPosition, 1.0);
 
 	vUV = aUV;
 	vNormal = mat3(transpose(inverse(uModel))) * aNormal;
