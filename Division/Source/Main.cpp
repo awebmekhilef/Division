@@ -93,32 +93,32 @@ int main()
 	models[0]->SetPosition({ 0.0f, 0.0f, 0.0f });
 	models[0]->SetRotation({ 45.0f, 180.0f, 0.0f });
 	models[1]->SetScale({ 0.5f, 0.5f, 0.5f });
-	models[0]->AddChild(models[1]);
+	// models[0]->AddChild(models[1]);
 
 	/* ========= LIGHTS ========= */
 
 	std::vector<Light*> lights;
 
 	Light* light1 = new Light{
-		{ 0.0f, 2.5f, 3.0f },
+		{ 0.0f, 1.5f, 3.0f },
 		{ 1.0f, 1.0f, 1.0f },
 		{ 1.0f, 1.0f, 1.0f }
 	};
 
 	Light* light2 = new Light{
-		{ 0.0f, 2.5f, -3.0f },
+		{ 0.0f, 1.5f, -3.0f },
 		{ 1.0f, 0.0f, 1.0f },
 		{ 1.0f, 1.0f, 1.0f }
 	};
 
 	Light* light3 = new Light{
-		{ -3.0f, 2.5f, 0.0f },
+		{ -3.0f, 1.5f, 0.0f },
 		{ 0.0f, 0.0f, 1.0f },
 		{ 1.0f, 1.0f, 1.0f }
 	};
 
 	Light* light4 = new Light{
-		{ 3.0f, 2.5f, 0.0f },
+		{ 3.0f, 1.5f, 0.0f },
 		{ 0.0f, 1.0f, 0.0f },
 		{ 1.0f, 1.0f, 1.0f }
 	};
