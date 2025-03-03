@@ -1,5 +1,7 @@
 # Division
-A work in progress 3D game engine for my Games Programming unit.
+An OpenGL 3D game engine for my Games Programming course.
+
+View the demo reel [here](https://www.youtube.com/watch?v=yFDST90T3v4).
 
 ![Demo image](Screenshots/Preview.png)
 
@@ -9,6 +11,3 @@ A work in progress 3D game engine for my Games Programming unit.
 - Loading and rendering 3D models
 - Transformation hierarchy
 - Cubemaps
-
-## WIP Features
-- Instanced rendering
